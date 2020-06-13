@@ -1,8 +1,8 @@
-package jp.ac.keio.sfc.srobots_lab.sabaniki.iot_family_chat_server
+package jp.ac.keio.sfc.srobots_lab.sabaniki.iot_family_chat_server.http
 
 import com.slack.api.Slack
 import com.slack.api.methods.SlackApiException
-import com.slack.api.methods.request.chat.ChatPostMessageRequest
+import jp.ac.keio.sfc.srobots_lab.sabaniki.iot_family_chat_server.asets.Token
 import org.slf4j.LoggerFactory
 import java.io.IOException
 
@@ -19,8 +19,16 @@ class Chatter(private val name: String) {
                     .username(name)
                     .text(message)
             }
-            if (response.isOk) logger.info("success send message: {} --[{}]", response.message.username, response.message.text)
-            else logger.error("failed to send message: {}", response.error)
+            if (response.isOk) {
+                logger.info("success send message:")
+                logger.info("name: {}", response.message.username)
+                logger.info("text: {}", response.message.text)
+            }
+
+            else {
+                logger.error("failed to send message:")
+                logger.error("error: {}", response.error)
+            }
         }
         catch (apiError: SlackApiException) {
             logger.error("Slack API returned bad status: $apiError")
